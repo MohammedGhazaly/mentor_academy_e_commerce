@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
@@ -17,11 +19,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: AppTheme.lightTheme,
-      home: OnBoardingScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => OnboardingCubit(),
+          lazy: true,
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: AppTheme.lightTheme,
+        home: OnBoardingScreen(),
+      ),
     );
   }
 }
