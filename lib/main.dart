@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
@@ -19,9 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
       home: OnBoardingScreen(),
     );
   }
