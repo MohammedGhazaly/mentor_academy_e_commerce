@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
+import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DioHelperStore.init();
+  await CacheHelper.init();
   runApp(const MyApp());
 }
 
