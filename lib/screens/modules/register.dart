@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/managers/images.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/text_form.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/gender_drop_down.dart';
+import 'package:mentor_academy_e_commerce/screens/widgets/register/no_image_picked_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String routeName = "register-screen";
@@ -59,15 +61,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        "Register",
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Register",
+                          style: TextStyle(
+                            fontSize: 24.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
+                        cubit.image == null
+                            ? NoImagePickedWidget()
+                            : Container()
+                      ],
                     ),
                     SizedBox(
                       height: 32.h,
@@ -155,9 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.h,
                     ),
                     GenderDropDown(
-                      onChangedFunction: (value) {
-                        print(value);
-                      },
+                      onChangedFunction: (value) {},
                     ),
                   ],
                 ),
