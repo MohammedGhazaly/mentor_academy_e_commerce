@@ -39,7 +39,7 @@ class DefaultFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       cursorColor: Colors.black,
-      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      // onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: validatorFunction,
       controller: controller,
       style: TextStyle(
@@ -63,7 +63,7 @@ class DefaultFormField extends StatelessWidget {
             borderSide: const BorderSide(
               color: Colors.red,
             )),
-        errorStyle: const TextStyle(color: Colors.red, fontSize: 15),
+        errorStyle: const TextStyle(color: Colors.red, fontSize: 10),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),

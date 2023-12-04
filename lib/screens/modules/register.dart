@@ -5,11 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/images.dart';
+import 'package:mentor_academy_e_commerce/core/managers/router.dart';
+import 'package:mentor_academy_e_commerce/core/widgets/botton.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/text_form.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/gender_drop_down.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/image_picked_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/modal_bottom_sheet_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/no_image_picked_widget.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
   static String routeName = "register-screen";
@@ -25,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late final TextEditingController phoneController;
   late final TextEditingController nationalIdController;
   late final TextEditingController passwordController;
+  late final GlobalKey<FormState> formKey;
   late RegisterCubit cubit;
   String gender = "male";
   @override
@@ -37,6 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     nationalIdController = TextEditingController();
     passwordController = TextEditingController();
     cubit = RegisterCubit.get(context);
+    formKey = GlobalKey<FormState>();
   }
 
   @override
@@ -53,17 +59,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterCubit, RegisterState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is RegisterError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.black,
+              content: Text(
+                state.errorMessage,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
+                ),
+              ),
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: Center(
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              child: Form(
+                autovalidateMode: AutovalidateMode.always,
+                key: formKey,
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    SizedBox(
+                      height: 64.h,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -116,7 +142,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       validatorFunction: (value) {
                         if (value == null || value.isEmpty) {
                           return "Phone should not be empty.";
-                        } else if (value[0] != "0" || value[1] != "0") {
+                        } else if (value.length >= 2 &&
+                            (value[0] != "0" || value[1] != "1")) {
                           return "Phone must start with 01";
                         } else if (value.length != 11) {
                           return "Phone must be 11 digits.";
@@ -182,6 +209,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     GenderDropDown(
                       onChangedFunction: (value) {},
                     ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    DefaultButton(
+                      buttonWidget: (state is RegisterLoading)
+                          ? LoadingAnimationWidget.inkDrop(
+                              color: Colors.white, size: 24.sp)
+                          : Text(
+                              "Register",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                      onPressedFunction: () async {
+                        if (formKey.currentState!.validate() &&
+                            cubit.image != null) {
+                          await cubit.register(
+                            name: nameController.text,
+                            email: emailController.text,
+                            phone: phoneController.text,
+                            nationalId: nationalIdController.text,
+                            gender: gender,
+                            password: passwordController.text,
+                          );
+                          if (!context.mounted) return;
+                          Navigator.pushReplacementNamed(
+                              context, LoginScreen.routeName);
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 64.h,
+                    )
                   ],
                 ),
               ),
