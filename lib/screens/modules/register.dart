@@ -77,41 +77,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         cubit.image == null
                             ? NoImagePickedWidget(
                                 onIconClicked: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return ModalBottomSheetWidget(
-                                        cameraClicked: () {
-                                          cubit.addImage(
-                                              source: ImageSource.camera);
-                                        },
-                                        galleryClicked: () {
-                                          cubit.addImage(
-                                              source: ImageSource.gallery);
-                                        },
-                                      );
-                                    },
-                                  );
+                                  showModalForImage(context);
                                 },
                               )
                             : ImagePickedWidget(
                                 image: cubit.image,
                                 onIconClicked: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return ModalBottomSheetWidget(
-                                        cameraClicked: () {
-                                          cubit.addImage(
-                                              source: ImageSource.camera);
-                                        },
-                                        galleryClicked: () {
-                                          cubit.addImage(
-                                              source: ImageSource.gallery);
-                                        },
-                                      );
-                                    },
-                                  );
+                                  showModalForImage(context);
                                 },
                               )
                       ],
@@ -120,6 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 32.h,
                     ),
                     DefaultFormField(
+                      prefix: Icons.person_rounded,
                       hint: "Name",
                       controller: nameController,
                       keyboardType: TextInputType.name,
@@ -136,6 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.h,
                     ),
                     DefaultFormField(
+                      prefix: Icons.phone_rounded,
                       hint: "Phone",
                       controller: phoneController,
                       keyboardType: TextInputType.number,
@@ -154,6 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.h,
                     ),
                     DefaultFormField(
+                      prefix: Icons.credit_card_outlined,
                       hint: "National Id",
                       controller: nationalIdController,
                       keyboardType: TextInputType.number,
@@ -170,6 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.h,
                     ),
                     DefaultFormField(
+                      prefix: Icons.mail_rounded,
                       hint: "Email address",
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -186,6 +162,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.h,
                     ),
                     DefaultFormField(
+                      prefix: Icons.password_rounded,
+                      showText: false,
                       hint: "Password",
                       controller: passwordController,
                       keyboardType: TextInputType.visiblePassword,
@@ -209,6 +187,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Future<dynamic> showModalForImage(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ModalBottomSheetWidget(
+          cameraClicked: () {
+            cubit.addImage(source: ImageSource.camera);
+          },
+          galleryClicked: () {
+            cubit.addImage(source: ImageSource.gallery);
+          },
         );
       },
     );

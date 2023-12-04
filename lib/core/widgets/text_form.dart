@@ -25,7 +25,7 @@ class DefaultFormField extends StatelessWidget {
     this.hint,
     this.label,
     this.prefix,
-    this.showText = false,
+    this.showText = true,
     this.onTap,
     this.onChange,
     this.onSubmit,
@@ -42,6 +42,11 @@ class DefaultFormField extends StatelessWidget {
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: validatorFunction,
       controller: controller,
+      style: TextStyle(
+        fontSize: 16.sp,
+        color: Colors.black,
+        fontWeight: FontWeight.normal,
+      ),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
@@ -76,7 +81,7 @@ class DefaultFormField extends StatelessWidget {
       keyboardType: keyboardType,
       onFieldSubmitted: onSubmit,
       onChanged: onChange,
-      obscureText: showText,
+      obscureText: !showText,
       onTap: onTap,
     );
   }

@@ -55,11 +55,17 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(RegisterSuccess());
 
       user = User.fromJson(value.data);
-    }).onError<Exception>((error, stackTrace) {
+    }).onError((error, stackTrace) {
       if (error is DioException) {
-        emit(
-          RegisterError(errorMessage: error.response?.data["message"]),
-        );
+        if (error.response!.statusCode == 400) {
+          emit(
+            RegisterError(errorMessage: error.response?.data["message"]),
+          );
+        } else if (error.response!.statusCode == 500) {
+          emit(
+            RegisterError(errorMessage: error.response?.data["message"]),
+          );
+        }
       } else if (error is SocketException) {
         emit(
           RegisterError(errorMessage: "No internet connection."),
