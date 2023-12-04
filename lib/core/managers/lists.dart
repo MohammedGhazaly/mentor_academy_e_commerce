@@ -2,7 +2,7 @@ import 'package:mentor_academy_e_commerce/core/managers/images.dart';
 import 'package:mentor_academy_e_commerce/models/onboarding_model.dart';
 
 class AppLists {
-  static List<OnBoradingModel> onBoradingModel = [
+  static List<OnBoradingModel> onBoarding = [
     OnBoradingModel(
         title: "Welcome",
         subtitle: "We have many products.",
