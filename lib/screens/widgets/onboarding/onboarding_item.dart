@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mentor_academy_e_commerce/models/onboarding_model.dart';
+import 'package:mentor_academy_e_commerce/models/onboarding/onboarding_model.dart';
 
 class OnbardingItem extends StatelessWidget {
   final OnBoradingModel onBoradingModel;
