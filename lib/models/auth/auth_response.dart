@@ -1,4 +1,4 @@
-import 'package:mentor_academy_e_commerce/models/user/user_model.dart';
+import 'package:mentor_academy_e_commerce/models/auth/user_model.dart';
 
 class AuthResponse {
   String? status;
