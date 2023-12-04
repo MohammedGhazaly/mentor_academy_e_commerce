@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/managers/router.dart';
 import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
 import 'package:mentor_academy_e_commerce/core/managers/values.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
@@ -18,15 +19,14 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark));
-  var isBoardingFinished =
-      CacheHelper.getData(key: AppKeys.boardingKey) as bool;
+  bool? isBoardingFinished = CacheHelper.getData(key: AppKeys.boardingKey);
   runApp(MyApp(
     isBoardingFinished: isBoardingFinished,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  final bool isBoardingFinished;
+  final bool? isBoardingFinished;
   const MyApp({super.key, required this.isBoardingFinished});
 
   // This widget is the root of your application.
@@ -48,9 +48,10 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: AppTheme.lightTheme,
-            home: isBoardingFinished
-                ? const LoginScreen()
-                : const OnBoardingScreen(),
+            routes: AppRouter.router,
+            initialRoute: isBoardingFinished == null
+                ? OnBoardingScreen.routeName
+                : LoginScreen.routeName,
           );
         },
       ),

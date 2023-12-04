@@ -7,6 +7,7 @@ import 'package:mentor_academy_e_commerce/core/widgets/botton.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/onboarding/onboarding_item.dart';
 
 class OnBoardingScreen extends StatefulWidget {
+  static String routeName = "on-boarding-route";
   const OnBoardingScreen({super.key});
 
   @override
