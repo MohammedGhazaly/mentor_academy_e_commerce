@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
-import 'package:mentor_academy_e_commerce/core/managers/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/managers/router.dart';
 import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
 import 'package:mentor_academy_e_commerce/core/managers/values.dart';
@@ -36,6 +37,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => OnboardingCubit(),
+          lazy: true,
+        ),
+        BlocProvider(
+          create: (context) => RegisterCubit(),
           lazy: true,
         ),
       ],
