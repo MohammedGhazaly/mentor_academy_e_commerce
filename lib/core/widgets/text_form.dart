@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DefaultFieldForm extends StatelessWidget {
+class DefaultFormField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final String? Function(String?)? validatorFunction;
@@ -16,7 +17,7 @@ class DefaultFieldForm extends StatelessWidget {
   final TextStyle? labelStyle;
   final TextStyle? hintStyle;
 
-  const DefaultFieldForm({
+  const DefaultFormField({
     super.key,
     required this.controller,
     required this.keyboardType,
@@ -37,15 +38,17 @@ class DefaultFieldForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      cursorColor: Colors.black,
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       validator: validatorFunction,
       controller: controller,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: hintStyle,
+        hintStyle: TextStyle(
+            fontSize: 14.sp, color: Colors.grey, fontWeight: FontWeight.normal),
         labelText: label,
         labelStyle: labelStyle,
-        contentPadding: const EdgeInsets.all(16),
+        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 16.w),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.grey[500]!),
@@ -61,10 +64,10 @@ class DefaultFieldForm extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.black),
+          borderSide: BorderSide(color: Colors.black, width: 1),
         ),
         // borderRadius: BorderRadius.circular(30
-        prefixIcon: Icon(prefix, color: Colors.black),
+        prefixIcon: prefix != null ? Icon(prefix, color: Colors.black) : null,
         suffixIcon: suffix != null
             ? IconButton(
                 icon: Icon(suffix), onPressed: suffixPress, color: Colors.black)

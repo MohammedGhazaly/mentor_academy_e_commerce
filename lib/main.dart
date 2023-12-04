@@ -12,6 +12,7 @@ import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/register.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,14 +51,14 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (_, child) {
           return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: AppTheme.lightTheme,
-            routes: AppRouter.router,
-            initialRoute: isBoardingFinished == null
-                ? OnBoardingScreen.routeName
-                : LoginScreen.routeName,
-          );
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: AppTheme.lightTheme,
+              routes: AppRouter.router,
+              // initialRoute: isBoardingFinished == null
+              //     ? OnBoardingScreen.routeName
+              //     : LoginScreen.routeName,
+              initialRoute: RegisterScreen.routeName);
         },
       ),
     );
