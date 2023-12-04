@@ -2,10 +2,13 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/images.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/text_form.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/gender_drop_down.dart';
+import 'package:mentor_academy_e_commerce/screens/widgets/register/image_picked_widget.dart';
+import 'package:mentor_academy_e_commerce/screens/widgets/register/modal_bottom_sheet_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/register/no_image_picked_widget.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -72,8 +75,45 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         cubit.image == null
-                            ? NoImagePickedWidget()
-                            : Container()
+                            ? NoImagePickedWidget(
+                                onIconClicked: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return ModalBottomSheetWidget(
+                                        cameraClicked: () {
+                                          cubit.addImage(
+                                              source: ImageSource.camera);
+                                        },
+                                        galleryClicked: () {
+                                          cubit.addImage(
+                                              source: ImageSource.gallery);
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              )
+                            : ImagePickedWidget(
+                                image: cubit.image,
+                                onIconClicked: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return ModalBottomSheetWidget(
+                                        cameraClicked: () {
+                                          cubit.addImage(
+                                              source: ImageSource.camera);
+                                        },
+                                        galleryClicked: () {
+                                          cubit.addImage(
+                                              source: ImageSource.gallery);
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                              )
                       ],
                     ),
                     SizedBox(

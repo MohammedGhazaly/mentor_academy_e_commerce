@@ -1,12 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/managers/images.dart';
 
-class NoImagePickedWidget extends StatelessWidget {
+class ImagePickedWidget extends StatelessWidget {
+  final File? image;
   final void Function()? onIconClicked;
-
-  const NoImagePickedWidget({
+  const ImagePickedWidget({
     super.key,
+    this.image,
     this.onIconClicked,
   });
 
@@ -17,9 +20,7 @@ class NoImagePickedWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 45,
-          backgroundImage: AssetImage(
-            AppImages.personImage,
-          ),
+          backgroundImage: FileImage(image!),
         ),
         Positioned(
           bottom: -20.h,
