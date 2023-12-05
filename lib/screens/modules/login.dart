@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (value == null || value.isEmpty) {
                               return "Email should not be empty.";
                             } else if (!EmailValidator.validate(value)) {
-                              return "Please enter a valid number";
+                              return "Please enter a valid email";
                             }
                             return null;
                           },

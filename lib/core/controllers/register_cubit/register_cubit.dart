@@ -24,7 +24,9 @@ class RegisterCubit extends Cubit<RegisterState> {
   String? userImage;
 
   Future<void> addImage({required ImageSource source}) async {
-    final pickedFile = await imagePicker.pickImage(source: source);
+    final pickedFile = await imagePicker.pickImage(
+      source: source,
+    );
     if (pickedFile != null) {
       image = File(pickedFile.path);
       bytes = File(image!.path).readAsBytesSync();
@@ -70,11 +72,12 @@ class RegisterCubit extends Cubit<RegisterState> {
 
         emit(RegisterSuccess());
       }
-    } on SocketException catch (e) {
-      emit(
-        RegisterError(errorMessage: "No internet"),
-      );
     } catch (e) {
+      if (e is SocketException) {
+        emit(
+          RegisterError(errorMessage: "No internet"),
+        );
+      }
       if (e is DioException) {
         if (e.response!.statusCode == 400) {
           emit(
@@ -86,6 +89,10 @@ class RegisterCubit extends Cubit<RegisterState> {
       } else if (e is SocketException) {
         emit(
           RegisterError(errorMessage: "No internet connection"),
+        );
+      } else {
+        emit(
+          RegisterError(errorMessage: "Something went wrong"),
         );
       }
     }

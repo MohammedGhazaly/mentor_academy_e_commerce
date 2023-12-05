@@ -75,6 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         if (state is RegisterLoading) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
+              duration: const Duration(seconds: 3),
               backgroundColor: Colors.black,
               content: Text(
                 "Registering & uploading image. this may take a while",
@@ -85,6 +86,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           );
+        }
+        if (state is RegisterSuccess) {
+          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
         }
       },
       builder: (context, state) {
@@ -192,7 +196,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         if (value == null || value.isEmpty) {
                           return "Email should not be empty.";
                         } else if (!EmailValidator.validate(value)) {
-                          return "Please enter a valid number";
+                          return "Please enter a valid email";
                         }
                         return null;
                       },
@@ -246,9 +250,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               gender: gender,
                               password: passwordController.text,
                             );
-                            if (!context.mounted) return;
-                            Navigator.pushReplacementNamed(
-                                context, LoginScreen.routeName);
                           }
                         }
                       },
