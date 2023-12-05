@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
-import 'package:mentor_academy_e_commerce/core/managers/images.dart';
-import 'package:mentor_academy_e_commerce/core/managers/router.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/botton.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/text_form.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
