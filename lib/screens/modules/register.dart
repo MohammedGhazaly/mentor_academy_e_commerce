@@ -74,6 +74,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           );
         }
+        if (state is RegisterLoading) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.black,
+              content: Text(
+                "Registering & uploading image. this may take a while",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                ),
+              ),
+            ),
+          );
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -223,21 +237,52 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                       onPressedFunction: () async {
-                        if (formKey.currentState!.validate() &&
-                            cubit.image != null) {
-                          await cubit.register(
-                            name: nameController.text,
-                            email: emailController.text,
-                            phone: phoneController.text,
-                            nationalId: nationalIdController.text,
-                            gender: gender,
-                            password: passwordController.text,
-                          );
-                          if (!context.mounted) return;
-                          Navigator.pushReplacementNamed(
-                              context, LoginScreen.routeName);
+                        if (state is! RegisterLoading) {
+                          if (formKey.currentState!.validate() &&
+                              cubit.image != null) {
+                            await cubit.register(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text,
+                              nationalId: nationalIdController.text,
+                              gender: gender,
+                              password: passwordController.text,
+                            );
+                            if (!context.mounted) return;
+                            Navigator.pushReplacementNamed(
+                                context, LoginScreen.routeName);
+                          }
                         }
                       },
+                    ),
+                    SizedBox(
+                      height: 16.h,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushReplacementNamed(
+                            context, LoginScreen.routeName);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Already have an account?",
+                            style: TextStyle(
+                              color: Colors.black.withOpacity(
+                                0.75,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            " Login",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 64.h,

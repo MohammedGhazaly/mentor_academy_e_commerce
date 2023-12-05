@@ -7,11 +7,8 @@ import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/regist
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/managers/router.dart';
 import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
-import 'package:mentor_academy_e_commerce/core/managers/values.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
-import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
-import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/register.dart';
 
 void main() async {
@@ -22,6 +19,8 @@ void main() async {
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark));
   bool? isBoardingFinished = CacheHelper.getData(key: AppKeys.boardingKey);
+  String? token = CacheHelper.getData(key: AppKeys.tokenKey);
+  String? nationalId = CacheHelper.getData(key: AppKeys.userNationalId);
   runApp(MyApp(
     isBoardingFinished: isBoardingFinished,
   ));
@@ -51,14 +50,15 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (_, child) {
           return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Flutter Demo',
-              theme: AppTheme.lightTheme,
-              routes: AppRouter.router,
-              // initialRoute: isBoardingFinished == null
-              //     ? OnBoardingScreen.routeName
-              //     : LoginScreen.routeName,
-              initialRoute: RegisterScreen.routeName);
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: AppTheme.lightTheme,
+            routes: AppRouter.router,
+            // initialRoute: isBoardingFinished == null
+            //     ? OnBoardingScreen.routeName
+            //     : LoginScreen.routeName,
+            initialRoute: RegisterScreen.routeName,
+          );
         },
       ),
     );
