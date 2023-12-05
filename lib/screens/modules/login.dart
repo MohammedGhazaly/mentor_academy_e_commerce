@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/login_cubit/login_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/botton.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/text_form.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/register.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -55,6 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           );
+        }
+        if (state is LoginSuccess) {
+          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         }
       },
       builder: (context, state) {
@@ -136,8 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   password: passwordController.text,
                                 );
                                 if (!context.mounted) return;
-                                // Navigator.pushReplacementNamed(
-                                //     context, LoginScreen.routeName);
+                                print("Done");
                               }
                             }
                           },

@@ -57,14 +57,12 @@ class RegisterCubit extends Cubit<RegisterState> {
         },
       );
 
-      print(response.statusCode);
-      print(response.data["status"]);
       if (response.data["status"] == "error") {
         emit(
           RegisterError(errorMessage: response.data["message"]),
         );
       } else {
-        User user = User.fromJson(response.data);
+        User user = User.fromJson(response.data["user"]);
 
         await CacheHelper.saveData(key: AppKeys.tokenKey, value: user.token);
         await CacheHelper.saveData(

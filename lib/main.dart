@@ -10,7 +10,9 @@ import 'package:mentor_academy_e_commerce/core/managers/router.dart';
 import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/register.dart';
 
 void main() async {
@@ -25,16 +27,19 @@ void main() async {
   String? nationalId = CacheHelper.getData(key: AppKeys.userNationalId);
   runApp(MyApp(
     isBoardingFinished: isBoardingFinished,
+    token: token,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final bool? isBoardingFinished;
-  const MyApp({super.key, required this.isBoardingFinished});
+  final String? token;
+  const MyApp({super.key, required this.isBoardingFinished, this.token});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    print(token);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -60,10 +65,12 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             theme: AppTheme.lightTheme,
             routes: AppRouter.router,
-            // initialRoute: isBoardingFinished == null
-            //     ? OnBoardingScreen.routeName
-            //     : LoginScreen.routeName,
-            initialRoute: LoginScreen.routeName,
+            initialRoute: isBoardingFinished == null
+                ? OnBoardingScreen.routeName
+                : token == null
+                    ? LoginScreen.routeName
+                    : HomeScreen.routeName,
+            // initialRoute: HomeScreen.routeName,
           );
         },
       ),

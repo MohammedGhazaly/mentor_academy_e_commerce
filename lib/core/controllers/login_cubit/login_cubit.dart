@@ -27,14 +27,14 @@ class LoginCubit extends Cubit<LoginState> {
         url: ApiConstants.loginEndPoint,
         data: {"email": email, "password": password},
       );
+      print(response.data["status"]);
 
       if (response.data["status"] == "error") {
         emit(
           LoginError(errorMessage: response.data["message"]),
         );
       } else {
-        User user = User.fromJson(response.data);
-
+        User user = User.fromJson(response.data["user"]);
         await CacheHelper.saveData(key: AppKeys.tokenKey, value: user.token);
         await CacheHelper.saveData(
             key: AppKeys.userNationalId, value: user.nationalId);
