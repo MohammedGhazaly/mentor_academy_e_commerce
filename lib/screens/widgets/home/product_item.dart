@@ -15,7 +15,9 @@ class ProductItem extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: ProductTopWidget(laptop: laptopModel),
+            child: ProductTopWidget(
+              laptop: laptopModel,
+            ),
           ),
           Expanded(
             child: ProductBottomWidget(laptop: laptopModel),

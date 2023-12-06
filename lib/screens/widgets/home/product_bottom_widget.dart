@@ -37,6 +37,9 @@ class ProductBottomWidget extends StatelessWidget {
                       style: TextStyle(fontSize: 14.sp),
                     ),
                   ),
+                  SizedBox(
+                    width: 4.w,
+                  ),
                   if (laptop.sales != 0)
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -69,18 +72,24 @@ class ProductBottomWidget extends StatelessWidget {
             ),
             Expanded(
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: AutoSizeText(
-                      "LE${laptop.price.toString().replaceFirst(".", "")}",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      minFontSize: 13,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColorDark,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 4.h),
+                        child: AutoSizeText(
+                          "LE ${laptop.price.toString().replaceFirst(".", "")}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          minFontSize: 13,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColorDark,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -95,7 +104,7 @@ class ProductBottomWidget extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         // width: 70,
 
-                        height: 40.h,
+                        height: 35.h,
                         decoration: BoxDecoration(
                             color: AppColors.primaryColorDark,
                             borderRadius: BorderRadius.only(
@@ -103,9 +112,8 @@ class ProductBottomWidget extends StatelessWidget {
                         child: Center(
                           child: Text(
                             "BUY",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14.sp),
                           ),
                         ),
                       ),

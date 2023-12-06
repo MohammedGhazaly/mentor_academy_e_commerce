@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
 import 'package:mentor_academy_e_commerce/models/home/laptops/laptop_model.dart';
 
-class ProductTopWidget extends StatelessWidget {
+class ProductHeaderBig extends StatelessWidget {
   final LaptopModel laptop;
-
-  const ProductTopWidget({
+  final int index;
+  const ProductHeaderBig({
     super.key,
     required this.laptop,
+    required this.index,
   });
 
   @override
@@ -29,7 +30,7 @@ class ProductTopWidget extends StatelessWidget {
                   laptop.status ?? "",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 14.sp,
+                    fontSize: 24.sp,
                   ),
                 ),
               ),
@@ -42,23 +43,23 @@ class ProductTopWidget extends StatelessWidget {
             children: [
               Container(
                 color: AppColors.primaryColor,
-                width: 170.h,
-                height: 170.h,
+                width: 310.h,
+                height: 310.h,
               ),
               CachedNetworkImage(
-                imageUrl: laptop.image ?? "",
-                width: 170.h,
-                height: 170.h,
+                imageUrl: laptop.images?[index] ?? "",
+                width: 310.h,
+                height: 310.h,
               ),
 
               Positioned(
-                top: 10.h,
-                right: 10.h,
+                top: 40.h,
+                right: 30.h,
                 child: InkWell(
                   onTap: () {},
                   child: Container(
-                    width: 28.h,
-                    height: 28.h,
+                    width: 40.h,
+                    height: 40.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.primaryColorLight,
@@ -66,7 +67,7 @@ class ProductTopWidget extends StatelessWidget {
                     child: Center(
                       child: Icon(
                         Icons.favorite_outline,
-                        size: 20.sp,
+                        size: 24.sp,
                       ),
                     ),
                   ),
