@@ -1,18 +1,18 @@
-class ProductModel {
+class LaptopModel {
   String? sId;
   String? status;
   String? category;
   String? name;
-  double? price;
+  num? price;
   String? description;
   String? image;
   List<String>? images;
   String? company;
-  int? countInStock;
-  int? iV;
-  int? sales;
+  num? countInStock;
+  num? iV;
+  num? sales;
 
-  ProductModel(
+  LaptopModel(
       {this.sId,
       this.status,
       this.category,
@@ -26,7 +26,7 @@ class ProductModel {
       this.iV,
       this.sales});
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
+  LaptopModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     status = json['status'];
     category = json['category'];
@@ -39,22 +39,5 @@ class ProductModel {
     countInStock = json['countInStock'];
     iV = json['__v'];
     sales = json['sales'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['status'] = this.status;
-    data['category'] = this.category;
-    data['name'] = this.name;
-    data['price'] = this.price;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['images'] = this.images;
-    data['company'] = this.company;
-    data['countInStock'] = this.countInStock;
-    data['__v'] = this.iV;
-    data['sales'] = this.sales;
-    return data;
   }
 }

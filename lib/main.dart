@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/login_cubit/login_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/managers/router.dart';
@@ -39,20 +40,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    print(token);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => OnboardingCubit(),
-          lazy: true,
         ),
         BlocProvider(
           create: (context) => RegisterCubit(),
-          lazy: true,
         ),
         BlocProvider(
           create: (context) => LoginCubit(),
-          lazy: true,
+        ),
+        BlocProvider(
+          create: (context) => ProductCubit()..getLaptops(),
+          lazy: false,
         ),
       ],
       child: ScreenUtilInit(
