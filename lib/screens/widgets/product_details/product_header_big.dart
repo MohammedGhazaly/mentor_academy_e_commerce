@@ -57,7 +57,34 @@ class ProductHeaderBig extends StatelessWidget {
                   height: 310.h,
                 ),
               ),
-
+              if (laptop.sales != 0)
+                Positioned(
+                  bottom: 25,
+                  right: 0,
+                  child: Hero(
+                    tag: "${laptop.sId}off",
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: AppColors.redColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          bottomLeft: Radius.circular(50),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "${laptop.sales}% off",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.sp,
+                              decoration: TextDecoration.none),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               Positioned(
                 top: 40.h,
                 right: 30.h,

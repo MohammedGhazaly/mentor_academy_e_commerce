@@ -29,34 +29,41 @@ class ProductBottomWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: AutoSizeText(
-                      laptop.name ?? "No name",
-                      maxLines: 1,
-                      minFontSize: 12,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 14.sp),
+                    child: Hero(
+                      tag: "${laptop.sId}name",
+                      child: AutoSizeText(
+                        laptop.name ?? "No name",
+                        maxLines: 1,
+                        minFontSize: 12,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 14.sp, decoration: TextDecoration.none),
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 4.w,
                   ),
                   if (laptop.sales != 0)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w),
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: AppColors.redColor,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          bottomLeft: Radius.circular(50),
+                    Hero(
+                      tag: "${laptop.sId}off",
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: AppColors.redColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(50),
+                            bottomLeft: Radius.circular(50),
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "${laptop.sales}% off",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10.sp,
+                        child: Center(
+                          child: Text(
+                            "${laptop.sales}% off",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.sp,
+                                decoration: TextDecoration.none),
                           ),
                         ),
                       ),
@@ -79,15 +86,18 @@ class ProductBottomWidget extends StatelessWidget {
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 4.h),
-                        child: AutoSizeText(
-                          "LE ${laptop.price.toString().replaceFirst(".", "")}",
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          minFontSize: 13,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColorDark,
+                        child: Hero(
+                          tag: "${laptop.sId}price",
+                          child: AutoSizeText(
+                            "LE ${laptop.price.toString().replaceFirst(".", "")}",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            minFontSize: 13,
+                            style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColorDark,
+                                decoration: TextDecoration.none),
                           ),
                         ),
                       ),
