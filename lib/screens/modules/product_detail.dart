@@ -11,10 +11,12 @@ class ProductDetail extends StatelessWidget {
     final LaptopModel laptop =
         ModalRoute.of(context)!.settings.arguments as LaptopModel;
     return Scaffold(
-      body: Column(
-        children: [
-          ProductImageSlider(laptop: laptop),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ProductImageSlider(laptop: laptop),
+          ],
+        ),
       ),
     );
   }

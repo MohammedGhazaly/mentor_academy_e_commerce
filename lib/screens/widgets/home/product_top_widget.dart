@@ -18,18 +18,21 @@ class ProductTopWidget extends StatelessWidget {
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Expanded(
-          child: RotatedBox(
-            quarterTurns: 1,
-            child: Container(
-              color: AppColors.primaryColorDark,
-              // width: 150.h,
-              // height: 30.w,
-              child: Center(
-                child: Text(
-                  laptop.status ?? "",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
+          child: Hero(
+            tag: "${laptop.sId}status",
+            child: RotatedBox(
+              quarterTurns: 1,
+              child: Container(
+                color: AppColors.primaryColorDark,
+                // width: 150.h,
+                // height: 30.w,
+                child: Center(
+                  child: Text(
+                    laptop.status ?? "",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        decoration: TextDecoration.none),
                   ),
                 ),
               ),
@@ -45,10 +48,13 @@ class ProductTopWidget extends StatelessWidget {
                 width: 170.h,
                 height: 170.h,
               ),
-              CachedNetworkImage(
-                imageUrl: laptop.image ?? "",
-                width: 170.h,
-                height: 170.h,
+              Hero(
+                tag: laptop.sId ?? "",
+                child: CachedNetworkImage(
+                  imageUrl: laptop.image ?? "",
+                  width: 170.h,
+                  height: 170.h,
+                ),
               ),
 
               Positioned(
@@ -56,17 +62,20 @@ class ProductTopWidget extends StatelessWidget {
                 right: 10.h,
                 child: InkWell(
                   onTap: () {},
-                  child: Container(
-                    width: 28.h,
-                    height: 28.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.primaryColorLight,
-                    ),
-                    child: Center(
-                      child: Icon(
-                        Icons.favorite_outline,
-                        size: 20.sp,
+                  child: Hero(
+                    tag: "${laptop.sId}icon",
+                    child: Container(
+                      width: 28.h,
+                      height: 28.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.primaryColorLight,
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.favorite_outline,
+                          size: 20.sp,
+                        ),
                       ),
                     ),
                   ),
