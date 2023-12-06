@@ -80,6 +80,9 @@ class ProductBottomWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    width: 12.w,
+                  ),
                   Align(
                     alignment: Alignment.bottomRight,
                     child: InkWell(

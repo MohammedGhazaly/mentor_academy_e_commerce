@@ -1,11 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
 import 'package:mentor_academy_e_commerce/core/managers/images.dart';
+import 'package:mentor_academy_e_commerce/models/home/laptops/laptop_model.dart';
 
 class ProductTopWidget extends StatelessWidget {
+  final LaptopModel laptop;
   const ProductTopWidget({
     super.key,
+    required this.laptop,
   });
 
   @override
@@ -22,11 +26,11 @@ class ProductTopWidget extends StatelessWidget {
               // height: 30.w,
               child: Center(
                 child: Text(
-                  "New",
+                  laptop.status ?? "",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600),
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
             ),
@@ -41,12 +45,12 @@ class ProductTopWidget extends StatelessWidget {
                 width: 170.h,
                 height: 170.h,
               ),
-              Image.asset(
-                AppImages.laptopTest,
+              CachedNetworkImage(
+                imageUrl: laptop.image ?? "",
                 width: 170.h,
                 height: 170.h,
-                // fit: BoxFit.fill,
               ),
+
               Positioned(
                 top: 10.h,
                 right: 10.h,

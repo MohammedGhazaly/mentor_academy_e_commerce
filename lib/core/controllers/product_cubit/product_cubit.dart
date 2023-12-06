@@ -16,6 +16,7 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<void> getLaptops() async {
     try {
+      emit(ProductLoading());
       var response =
           await DioHelperStore.getData(url: ApiConstants.getProductsEndPoint);
       if (response.statusCode != 200) {
@@ -31,10 +32,13 @@ class ProductCubit extends Cubit<ProductState> {
       if (e is SocketException) {
         emit(ProductFailure(errorMessage: "No internet connection"));
       } else if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError) {
+          emit(ProductFailure(errorMessage: "No internet connection"));
+        }
         if (e.type == DioExceptionType.badResponse) {
           emit(ProductFailure(
               errorMessage:
-                  e.response?.data["message"] ?? "Something wentwrong"));
+                  e.response?.data["message"] ?? "Something went wrong"));
         }
       } else {
         emit(ProductFailure(errorMessage: "Something went wrong"));

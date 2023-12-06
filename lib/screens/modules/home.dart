@@ -1,12 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
-import 'package:mentor_academy_e_commerce/core/managers/images.dart';
-import 'package:mentor_academy_e_commerce/screens/widgets/home/product_bottom_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/home/product_item.dart';
-import 'package:mentor_academy_e_commerce/screens/widgets/home/product_top_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   static String routeName = "home-screen";
@@ -17,26 +15,75 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         margin: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 32.h,
-            ),
-            Expanded(
-              child: GridView.builder(
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 1 / 1.4,
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16.h,
-                  crossAxisSpacing: 16.h,
+        child: BlocBuilder<ProductCubit, ProductState>(
+          builder: (context, state) {
+            if (state is ProductSuccess) {
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: state.laptops.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        childAspectRatio: 1 / 1.4,
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 16.h,
+                        crossAxisSpacing: 16.h,
+                      ),
+                      itemBuilder: (context, index) {
+                        return ProductItem(
+                          laptopModel: state.laptops[index],
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 32.h,
+                  ),
+                ],
+              );
+            }
+            if (state is ProductFailure) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      state.errorMessage,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.primaryColorDark,
+                      ),
+                      onPressed: () {
+                        ProductCubit.get(context).getLaptops();
+                      },
+                      icon: Icon(
+                        Icons.restart_alt,
+                      ),
+                      label: Text(
+                        "Try again",
+                      ),
+                    )
+                  ],
                 ),
-                itemBuilder: (context, index) {
-                  return ProductItem();
-                },
+              );
+            }
+            return Center(
+              child: LoadingAnimationWidget.inkDrop(
+                size: 32.sp,
+                color: AppColors.primaryColor,
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
