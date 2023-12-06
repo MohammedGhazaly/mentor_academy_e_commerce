@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
@@ -24,19 +25,30 @@ class HomeScreen extends StatelessWidget {
                     height: 32.h,
                   ),
                   Expanded(
-                    child: GridView.builder(
-                      itemCount: state.laptops.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 1 / 1.4,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 16.h,
-                        crossAxisSpacing: 16.h,
+                    child: AnimationLimiter(
+                      child: GridView.builder(
+                        itemCount: state.laptops.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 1 / 1.4,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16.h,
+                          crossAxisSpacing: 16.h,
+                        ),
+                        itemBuilder: (context, index) {
+                          return AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            duration: Duration(milliseconds: 500),
+                            columnCount: 2,
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                child: ProductItem(
+                                  laptopModel: state.laptops[index],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      itemBuilder: (context, index) {
-                        return ProductItem(
-                          laptopModel: state.laptops[index],
-                        );
-                      },
                     ),
                   ),
                   SizedBox(

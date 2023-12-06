@@ -2,10 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/models/home/laptops/laptop_model.dart';
 
 class ProductBottomWidget extends StatelessWidget {
+  final LaptopModel laptop;
   const ProductBottomWidget({
     super.key,
+    required this.laptop,
   });
 
   @override
@@ -27,38 +30,39 @@ class ProductBottomWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AutoSizeText(
-                      "Very good laptop",
+                      laptop.name ?? "No name",
                       maxLines: 1,
                       minFontSize: 12,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 14.sp),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8.w),
-                    height: 30,
-                    decoration: BoxDecoration(
-                      color: AppColors.redColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        bottomLeft: Radius.circular(50),
+                  if (laptop.sales != 0)
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: AppColors.redColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50),
+                          bottomLeft: Radius.circular(50),
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "15% off",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
+                      child: Center(
+                        child: Text(
+                          "${laptop.sales}% off",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.sp,
+                          ),
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
             Text(
-              "HP",
+              laptop.company ?? "No company",
               style: TextStyle(
                 color: Colors.grey[600],
               ),
@@ -69,7 +73,7 @@ class ProductBottomWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: AutoSizeText(
-                      "LE999.999",
+                      "LE${laptop.price.toString().replaceFirst(".", "")}",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       minFontSize: 13,

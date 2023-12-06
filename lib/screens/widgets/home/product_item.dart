@@ -18,7 +18,7 @@ class ProductItem extends StatelessWidget {
             child: ProductTopWidget(laptop: laptopModel),
           ),
           Expanded(
-            child: ProductBottomWidget(),
+            child: ProductBottomWidget(laptop: laptopModel),
           )
         ],
       ),
