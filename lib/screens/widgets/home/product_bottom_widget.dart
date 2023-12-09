@@ -1,7 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_states.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
+import 'package:mentor_academy_e_commerce/models/cart/add_to_cart_model.dart';
 import 'package:mentor_academy_e_commerce/models/home/laptops/laptop_model.dart';
 
 class ProductBottomWidget extends StatelessWidget {
@@ -13,6 +19,7 @@ class ProductBottomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var carCubit = BlocProvider.of<AddCartCubit>(context, listen: true);
     return Container(
       color: AppColors.lightColor,
       child: Padding(
@@ -100,22 +107,43 @@ class ProductBottomWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomRight,
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () async {
+                        AddToCartModel addToCartModel = AddToCartModel(
+                          nationalId:
+                              CacheHelper.getData(key: AppKeys.userNationalId),
+                          productId: laptop.sId!,
+                          quantity: "1",
+                        );
+                        if (!(carCubit.isAdding &&
+                            laptop.sId! == carCubit.productId)) {
+                          await AddCartCubit.get(context)
+                              .addToCart(addToCartModel, laptop.sId!);
+                        }
+                      },
                       child: Container(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        // width: 70,
-
+                        width: 70,
                         height: 35.h,
                         decoration: BoxDecoration(
                             color: AppColors.primaryColorDark,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(16.r))),
                         child: Center(
-                          child: Text(
-                            "BUY",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 14.sp),
-                          ),
+                          child: (carCubit.isAdding &&
+                                  laptop.sId! == carCubit.productId)
+                              ? SizedBox(
+                                  height: 15,
+                                  width: 15,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : Text(
+                                  "ADD",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 14.sp),
+                                ),
+                          //     child:
                         ),
                       ),
                     ),

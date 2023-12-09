@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/login_cubit/login_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
@@ -53,6 +54,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ProductCubit()..getLaptops(),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => AddCartCubit(),
           lazy: false,
         ),
       ],
