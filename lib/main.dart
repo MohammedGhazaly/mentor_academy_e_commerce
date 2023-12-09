@@ -16,6 +16,7 @@ import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/register.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/root.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,7 +76,7 @@ class MyApp extends StatelessWidget {
                 ? OnBoardingScreen.routeName
                 : token == null
                     ? LoginScreen.routeName
-                    : HomeScreen.routeName,
+                    : RootScreen.routeName,
             // initialRoute: HomeScreen.routeName,
           );
         },

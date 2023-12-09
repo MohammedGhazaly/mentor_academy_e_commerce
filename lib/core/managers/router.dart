@@ -4,6 +4,7 @@ import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/product_detail.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/register.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/root.dart';
 
 class AppRouter {
   static Map<String, Widget Function(BuildContext)> router = {
@@ -12,5 +13,6 @@ class AppRouter {
     RegisterScreen.routeName: (context) => const RegisterScreen(),
     HomeScreen.routeName: (context) => const HomeScreen(),
     ProductDetail.routeName: (context) => const ProductDetail(),
+    RootScreen.routeName: (context) => const RootScreen(),
   };
 }
