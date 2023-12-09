@@ -4,8 +4,9 @@ class DioHelperStore {
   static late Dio dio;
   static void init() {
     dio = Dio(BaseOptions(
-        // receiveDataWhenStatusError: true,
-        ));
+      receiveDataWhenStatusError: true,
+      connectTimeout: Duration(seconds: 10),
+    ));
   }
 
   static Future<Response> getData(

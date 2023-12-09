@@ -35,6 +35,9 @@ class ProductCubit extends Cubit<ProductState> {
         if (e.type == DioExceptionType.connectionError) {
           emit(ProductFailure(errorMessage: "No internet connection"));
         }
+        if (e.type == DioExceptionType.connectionTimeout) {
+          emit(ProductFailure(errorMessage: "It took to long to fetch data"));
+        }
         if (e.type == DioExceptionType.badResponse) {
           emit(ProductFailure(
               errorMessage:

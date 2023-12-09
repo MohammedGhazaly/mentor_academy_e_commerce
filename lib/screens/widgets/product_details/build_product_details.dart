@@ -14,26 +14,20 @@ Padding buildProductDetails(LaptopModel laptop) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Hero(
-                tag: "${laptop.sId}name",
-                child: Text(
-                  laptop.name ?? "",
-                  style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      decoration: TextDecoration.none),
-                ),
+              child: Text(
+                laptop.name ?? "",
+                style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    decoration: TextDecoration.none),
               ),
             ),
-            Hero(
-              tag: "${laptop.sId}price",
-              child: Text(
-                "LE ${laptop.price.toString().replaceFirst(".", "")}",
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: Colors.white,
-                ),
+            Text(
+              "LE ${laptop.price.toString().replaceFirst(".", "")}",
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: Colors.white,
               ),
             )
           ],
