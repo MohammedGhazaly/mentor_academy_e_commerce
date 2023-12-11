@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_cubit.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/add/add_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/delete_item_cart/delete_item_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/login_cubit/login_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
@@ -63,6 +64,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => GetCartCubit(),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => DeleteItemCartCubit(),
           lazy: false,
         ),
       ],

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_cubit.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_states.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_states.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/widgets/default_error_widget.dart';
-import 'package:mentor_academy_e_commerce/screens/widgets/cart/cart_item.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/cart/cart_listview.dart';
 
 class CartScreen extends StatelessWidget {
@@ -16,6 +15,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final getCartCubit = BlocProvider.of<GetCartCubit>(context, listen: false);
     return BlocBuilder<GetCartCubit, GetCartStates>(
       builder: (context, state) {
         if (state is GetCartFailure) {
@@ -28,17 +28,20 @@ class CartScreen extends StatelessWidget {
                   .getProducts(nationalId: nationalId);
             },
           );
-        }
-        if (state is GetCartSuccess) {
+        } else if (state is GetCartSuccess) {
           return CartListView(
-            products: state.products,
+            products: getCartCubit.products,
           );
-        } else {
+        } else if (state is GetCartLoading) {
           return Center(
             child: LoadingAnimationWidget.inkDrop(
               size: 32.sp,
               color: AppColors.primaryColor,
             ),
+          );
+        } else {
+          return CartListView(
+            products: getCartCubit.products,
           );
         }
       },

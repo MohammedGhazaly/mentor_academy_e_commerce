@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_states.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/add/add_cart_states.dart';
 import 'package:mentor_academy_e_commerce/core/network/api_constants.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
 import 'package:mentor_academy_e_commerce/models/cart/add_to_cart_model.dart';

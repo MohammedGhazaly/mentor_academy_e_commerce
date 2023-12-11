@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/cart_screen.dart';

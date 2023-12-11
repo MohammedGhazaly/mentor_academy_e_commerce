@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_states.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_states.dart';
 import 'package:mentor_academy_e_commerce/core/network/api_constants.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
 import 'package:mentor_academy_e_commerce/models/cart/cart_model/product.dart';
@@ -17,6 +17,7 @@ class GetCartCubit extends Cubit<GetCartStates> {
     try {
       var response = await DioHelperStore.getData(
           url: ApiConstants.getCart, data: {"nationalId": nationalId});
+      products = [];
 
       if (response.statusCode == 200) {
         for (var product in response.data["products"]) {
