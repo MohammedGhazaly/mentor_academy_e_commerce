@@ -56,244 +56,246 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterState>(
-      listener: (context, state) {
-        if (state is RegisterError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.black,
-              content: Text(
-                state.errorMessage,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
+    return Builder(builder: (context) {
+      return BlocConsumer<RegisterCubit, RegisterState>(
+        listener: (context, state) {
+          if (state is RegisterError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.black,
+                content: Text(
+                  state.errorMessage,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                  ),
                 ),
               ),
-            ),
-          );
-        }
-        if (state is RegisterLoading) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              duration: const Duration(seconds: 3),
-              backgroundColor: Colors.black,
-              content: Text(
-                "Registering & uploading image. this may take a while",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
+            );
+          }
+          if (state is RegisterLoading) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: const Duration(seconds: 3),
+                backgroundColor: Colors.black,
+                content: Text(
+                  "Registering & uploading image. this may take a while",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                  ),
                 ),
               ),
-            ),
-          );
-        }
-        if (state is RegisterSuccess) {
-          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-        }
-      },
-      builder: (context, state) {
-        return Scaffold(
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: SingleChildScrollView(
-              child: Form(
-                autovalidateMode: AutovalidateMode.always,
-                key: formKey,
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SizedBox(
-                      height: 64.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Register",
-                          style: TextStyle(
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        cubit.image == null
-                            ? NoImagePickedWidget(
-                                onIconClicked: () {
-                                  showModalForImage(context);
-                                },
-                              )
-                            : ImagePickedWidget(
-                                image: cubit.image,
-                                onIconClicked: () {
-                                  showModalForImage(context);
-                                },
-                              )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    DefaultFormField(
-                      prefix: Icons.person_rounded,
-                      hint: "Name",
-                      controller: nameController,
-                      keyboardType: TextInputType.name,
-                      validatorFunction: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Name should not be empty.";
-                        } else if (value.length < 3) {
-                          return "Name should be at least 3 chars.";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    DefaultFormField(
-                      prefix: Icons.phone_rounded,
-                      hint: "Phone",
-                      controller: phoneController,
-                      keyboardType: TextInputType.number,
-                      validatorFunction: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Phone should not be empty.";
-                        } else if (value.length >= 2 &&
-                            (value[0] != "0" || value[1] != "1")) {
-                          return "Phone must start with 01";
-                        } else if (value.length != 11) {
-                          return "Phone must be 11 digits.";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    DefaultFormField(
-                      prefix: Icons.credit_card_outlined,
-                      hint: "National Id",
-                      controller: nationalIdController,
-                      keyboardType: TextInputType.number,
-                      validatorFunction: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "National id should not be empty.";
-                        } else if (value.length != 14) {
-                          return "National id should be at least 14";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    DefaultFormField(
-                      prefix: Icons.mail_rounded,
-                      hint: "Email address",
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validatorFunction: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Email should not be empty.";
-                        } else if (!EmailValidator.validate(value)) {
-                          return "Please enter a valid email";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    DefaultFormField(
-                      prefix: Icons.password_rounded,
-                      showText: false,
-                      hint: "Password",
-                      controller: passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      validatorFunction: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Password should not be empty.";
-                        } else if (value.length < 8) {
-                          return "Password should be at least 8 chars";
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    GenderDropDown(
-                      onChangedFunction: (value) {},
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    DefaultButton(
-                      buttonWidget: (state is RegisterLoading)
-                          ? LoadingAnimationWidget.inkDrop(
-                              color: Colors.white, size: 24.sp)
-                          : Text(
-                              "Register",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                      onPressedFunction: () async {
-                        if (state is! RegisterLoading) {
-                          if (formKey.currentState!.validate() &&
-                              cubit.image != null) {
-                            await cubit.register(
-                              name: nameController.text,
-                              email: emailController.text,
-                              phone: phoneController.text,
-                              nationalId: nationalIdController.text,
-                              gender: gender,
-                              password: passwordController.text,
-                            );
-                          }
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 16.h,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(
-                            context, LoginScreen.routeName);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+            );
+          }
+          if (state is RegisterSuccess) {
+            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: SingleChildScrollView(
+                child: Form(
+                  autovalidateMode: AutovalidateMode.always,
+                  key: formKey,
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        height: 64.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "Already have an account?",
+                            "Register",
                             style: TextStyle(
-                              color: Colors.black.withOpacity(
-                                0.75,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            " Login",
-                            style: TextStyle(
+                              fontSize: 24.sp,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
                             ),
                           ),
+                          cubit.image == null
+                              ? NoImagePickedWidget(
+                                  onIconClicked: () {
+                                    showModalForImage(context);
+                                  },
+                                )
+                              : ImagePickedWidget(
+                                  image: cubit.image,
+                                  onIconClicked: () {
+                                    showModalForImage(context);
+                                  },
+                                )
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 64.h,
-                    )
-                  ],
+                      SizedBox(
+                        height: 32.h,
+                      ),
+                      DefaultFormField(
+                        prefix: Icons.person_rounded,
+                        hint: "Name",
+                        controller: nameController,
+                        keyboardType: TextInputType.name,
+                        validatorFunction: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Name should not be empty.";
+                          } else if (value.length < 3) {
+                            return "Name should be at least 3 chars.";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      DefaultFormField(
+                        prefix: Icons.phone_rounded,
+                        hint: "Phone",
+                        controller: phoneController,
+                        keyboardType: TextInputType.number,
+                        validatorFunction: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Phone should not be empty.";
+                          } else if (value.length >= 2 &&
+                              (value[0] != "0" || value[1] != "1")) {
+                            return "Phone must start with 01";
+                          } else if (value.length != 11) {
+                            return "Phone must be 11 digits.";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      DefaultFormField(
+                        prefix: Icons.credit_card_outlined,
+                        hint: "National Id",
+                        controller: nationalIdController,
+                        keyboardType: TextInputType.number,
+                        validatorFunction: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "National id should not be empty.";
+                          } else if (value.length != 14) {
+                            return "National id should be at least 14";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      DefaultFormField(
+                        prefix: Icons.mail_rounded,
+                        hint: "Email address",
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        validatorFunction: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Email should not be empty.";
+                          } else if (!EmailValidator.validate(value)) {
+                            return "Please enter a valid email";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      DefaultFormField(
+                        prefix: Icons.password_rounded,
+                        showText: false,
+                        hint: "Password",
+                        controller: passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        validatorFunction: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Password should not be empty.";
+                          } else if (value.length < 8) {
+                            return "Password should be at least 8 chars";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      GenderDropDown(
+                        onChangedFunction: (value) {},
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      DefaultButton(
+                        buttonWidget: (state is RegisterLoading)
+                            ? LoadingAnimationWidget.inkDrop(
+                                color: Colors.white, size: 24.sp)
+                            : Text(
+                                "Register",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                        onPressedFunction: () async {
+                          if (state is! RegisterLoading) {
+                            if (formKey.currentState!.validate() &&
+                                cubit.image != null) {
+                              await cubit.register(
+                                name: nameController.text,
+                                email: emailController.text,
+                                phone: phoneController.text,
+                                nationalId: nationalIdController.text,
+                                gender: gender,
+                                password: passwordController.text,
+                              );
+                            }
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 16.h,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, LoginScreen.routeName);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(
+                                  0.75,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              " Login",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 64.h,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
+          );
+        },
+      );
+    });
   }
 
   Future<dynamic> showModalForImage(BuildContext context) {

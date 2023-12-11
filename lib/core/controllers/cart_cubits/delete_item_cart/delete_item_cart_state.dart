@@ -1,7 +1,6 @@
 part of 'delete_item_cart_cubit.dart';
 
-@immutable
-sealed class DeleteItemCartState {}
+abstract class DeleteItemCartState {}
 
 final class DeleteItemCartInitial extends DeleteItemCartState {}
 

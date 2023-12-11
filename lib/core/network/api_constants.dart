@@ -7,4 +7,5 @@ class ApiConstants {
   static String getCart = "$baseUrl/cart/allProducts";
   static String deleteCart = "$baseUrl/cart/delete";
   static String updateCart = "$baseUrl/cart";
+  static String getFavorites = "$baseUrl/favorite";
 }

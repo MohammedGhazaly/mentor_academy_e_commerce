@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/cart_screen.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/favorite.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 
 class RootScreen extends StatefulWidget {
@@ -21,6 +23,7 @@ class _RootScreenState extends State<RootScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getItemsInFavorite();
     getItemsInCart();
   }
 
@@ -29,12 +32,17 @@ class _RootScreenState extends State<RootScreen> {
         nationalId: CacheHelper.getData(key: AppKeys.userNationalId));
   }
 
+  void getItemsInFavorite() async {
+    await BlocProvider.of<FavoriteCubit>(context, listen: false).getProducts(
+        nationalId: CacheHelper.getData(key: AppKeys.userNationalId));
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> screens = [
       HomeScreen(),
       CartScreen(),
-      Container(),
+      FavoriteScreen(),
     ];
     return Scaffold(
       backgroundColor: Colors.grey[100],

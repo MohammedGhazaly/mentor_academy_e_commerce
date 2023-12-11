@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/add/add_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/delete_item_cart/delete_item_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/login_cubit/login_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:mentor_academy_e_commerce/core/managers/router.dart';
 import 'package:mentor_academy_e_commerce/core/managers/themes.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/core/network/remote/dio_helper.dart';
-import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/login.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/onboarding.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/root.dart';
@@ -47,12 +47,15 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => OnboardingCubit(),
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => RegisterCubit(),
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => LoginCubit(),
+          lazy: false,
         ),
         BlocProvider(
           create: (context) => ProductCubit()..getLaptops(),
@@ -68,6 +71,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => DeleteItemCartCubit(),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => FavoriteCubit(),
           lazy: false,
         ),
       ],
