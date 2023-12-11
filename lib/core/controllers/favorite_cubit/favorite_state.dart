@@ -17,3 +17,25 @@ final class FavoriteSuccess extends FavoriteState {
 
   FavoriteSuccess({required this.products});
 }
+
+// Add
+final class AddFavoriteLoading extends FavoriteState {}
+
+final class AddFavoriteFailure extends FavoriteState {
+  final String errorMessage;
+
+  AddFavoriteFailure({required this.errorMessage});
+}
+
+final class AddFavoriteSuccess extends FavoriteState {}
+// Remove
+
+final class RemoveFavoriteLoading extends FavoriteState {}
+
+final class RemoveFavoriteFailure extends FavoriteState {
+  final String errorMessage;
+
+  RemoveFavoriteFailure({required this.errorMessage});
+}
+
+final class RemoveFailureSuccess extends FavoriteState {}

@@ -11,6 +11,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   static FavoriteCubit get(context) => BlocProvider.of(context);
   List<Product> products = [];
+  List<String> favoriteIds = [];
 
   Future<void> getProducts({required String nationalId}) async {
     emit(FavoriteLoading());
@@ -23,8 +24,10 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       if (response.statusCode == 200) {
         for (var product in response.data["favoriteProducts"]) {
           products.add(Product.fromJson(product));
+
+          favoriteIds.add(Product.fromJson(product).id ?? "");
         }
-        print(products);
+        print(favoriteIds);
         emit(FavoriteSuccess(products: products));
       }
     } catch (e) {
@@ -42,6 +45,63 @@ class FavoriteCubit extends Cubit<FavoriteState> {
         }
       } else {
         emit(FavoriteFailure(errorMessage: "Something went wrong"));
+      }
+    }
+  }
+
+  Future<void> addFavorite(
+      {required String nationalId, required String productId}) async {
+    try {
+      var response = await DioHelperStore.postData(
+          url: ApiConstants.getFavorites,
+          data: {"nationalId": nationalId, "productId": productId});
+
+      await getProducts(nationalId: nationalId);
+    } catch (e) {
+      if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError) {
+          emit(AddFavoriteFailure(errorMessage: "No internet connection"));
+        }
+        if (e.type == DioExceptionType.connectionTimeout) {
+          emit(AddFavoriteFailure(
+              errorMessage: "It took to long to fetch data"));
+        }
+        if (e.type == DioExceptionType.badResponse) {
+          emit(AddFavoriteFailure(
+              errorMessage:
+                  e.response?.data["message"] ?? "Something went wrong"));
+        }
+      } else {
+        emit(AddFavoriteFailure(errorMessage: "Something went wrong"));
+      }
+    }
+  }
+
+  Future<void> removeFavorite(
+      {required String nationalId, required String productId}) async {
+    try {
+      var response = await DioHelperStore.delData(
+          url: ApiConstants.getFavorites,
+          data: {"nationalId": nationalId, "productId": productId});
+      favoriteIds.remove(productId);
+      await getProducts(nationalId: nationalId);
+      emit(state);
+    } catch (e) {
+      if (e is DioException) {
+        if (e.type == DioExceptionType.connectionError) {
+          emit(AddFavoriteFailure(errorMessage: "No internet connection"));
+        }
+        if (e.type == DioExceptionType.connectionTimeout) {
+          emit(AddFavoriteFailure(
+              errorMessage: "It took to long to fetch data"));
+        }
+        if (e.type == DioExceptionType.badResponse) {
+          emit(AddFavoriteFailure(
+              errorMessage:
+                  e.response?.data["message"] ?? "Something went wrong"));
+        }
+      } else {
+        emit(AddFavoriteFailure(errorMessage: "Something went wrong"));
       }
     }
   }

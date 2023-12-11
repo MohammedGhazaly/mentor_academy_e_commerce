@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/cart_screen.dart';
@@ -23,18 +24,28 @@ class _RootScreenState extends State<RootScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getItemsInFavorite();
-    getItemsInCart();
+    getAllData();
   }
 
-  void getItemsInCart() async {
+  Future<void> getItemsInCart() async {
     await BlocProvider.of<GetCartCubit>(context, listen: false).getProducts(
         nationalId: CacheHelper.getData(key: AppKeys.userNationalId));
   }
 
-  void getItemsInFavorite() async {
+  Future<void> getItemsInFavorite() async {
     await BlocProvider.of<FavoriteCubit>(context, listen: false).getProducts(
         nationalId: CacheHelper.getData(key: AppKeys.userNationalId));
+  }
+
+  Future<void> getAllProducts() async {
+    await BlocProvider.of<ProductCubit>(context, listen: false).getLaptops();
+  }
+
+  Future<void> getAllData() async {
+    await getItemsInFavorite();
+    // Future.delayed(const Du/ration(milliseconds: 250));
+    await getAllProducts();
+    await getItemsInCart();
   }
 
   @override
@@ -66,7 +77,7 @@ class _RootScreenState extends State<RootScreen> {
           setState(() {});
         },
         currentIndex: currentPageIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home_filled,
@@ -84,7 +95,7 @@ class _RootScreenState extends State<RootScreen> {
           ),
           BottomNavigationBarItem(
             icon: Badge(
-              label: Text("0"),
+              label: FavoriteProductTapText(),
               child: Icon(
                 Icons.favorite,
               ),
@@ -106,5 +117,18 @@ class CartProductTapText extends StatelessWidget {
   Widget build(BuildContext context) {
     var getCartCubit = BlocProvider.of<GetCartCubit>(context, listen: true);
     return Text(getCartCubit.products.length.toString());
+  }
+}
+
+class FavoriteProductTapText extends StatelessWidget {
+  const FavoriteProductTapText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var getFavoriteCubit =
+        BlocProvider.of<FavoriteCubit>(context, listen: true);
+    return Text(getFavoriteCubit.products.length.toString());
   }
 }

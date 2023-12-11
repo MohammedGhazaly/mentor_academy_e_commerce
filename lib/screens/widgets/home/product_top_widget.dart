@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/models/home/laptops/laptop_model.dart';
 
 class ProductTopWidget extends StatelessWidget {
@@ -14,6 +18,7 @@ class ProductTopWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final favCubit = BlocProvider.of<FavoriteCubit>(context, listen: true);
     return Row(
       // crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -61,7 +66,17 @@ class ProductTopWidget extends StatelessWidget {
                 top: 10.h,
                 right: 10.h,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    String nationId =
+                        CacheHelper.getData(key: AppKeys.userNationalId);
+                    if (favCubit.favoriteIds.contains(laptop.sId)) {
+                      await favCubit.removeFavorite(
+                          nationalId: nationId, productId: laptop.sId ?? "");
+                    } else {
+                      await favCubit.addFavorite(
+                          nationalId: nationId, productId: laptop.sId ?? "");
+                    }
+                  },
                   child: Hero(
                     tag: "${laptop.sId}icon",
                     child: Container(
@@ -71,12 +86,19 @@ class ProductTopWidget extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: AppColors.primaryColorLight,
                       ),
-                      child: Center(
-                        child: Icon(
-                          Icons.favorite_outline,
-                          size: 20.sp,
-                        ),
-                      ),
+                      child: favCubit.favoriteIds.contains(laptop.sId)
+                          ? Center(
+                              child: Icon(
+                                Icons.favorite,
+                                size: 20.sp,
+                                color: AppColors.primaryColorDark,
+                              ),
+                            )
+                          : Icon(
+                              Icons.favorite_outline_outlined,
+                              size: 20.sp,
+                              color: AppColors.primaryColorDark,
+                            ),
                     ),
                   ),
                 ),

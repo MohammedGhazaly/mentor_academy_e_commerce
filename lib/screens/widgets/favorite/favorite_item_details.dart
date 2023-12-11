@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/models/cart/cart_model/product.dart';
 
 class FavoriteItemDetails extends StatelessWidget {
@@ -29,7 +32,18 @@ class FavoriteItemDetails extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            Icon(Icons.favorite_border)
+            InkWell(
+              onTap: () async {
+                String nationId =
+                    CacheHelper.getData(key: AppKeys.userNationalId);
+                await FavoriteCubit.get(context).removeFavorite(
+                    nationalId: nationId, productId: product.id ?? "");
+              },
+              child: Icon(
+                Icons.favorite,
+                color: AppColors.primaryColorDark,
+              ),
+            )
           ],
         ),
         SizedBox(

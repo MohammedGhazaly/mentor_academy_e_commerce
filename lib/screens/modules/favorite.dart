@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
-import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_states.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
-import 'package:mentor_academy_e_commerce/models/cart/cart_model/product.dart';
-import 'package:mentor_academy_e_commerce/screens/widgets/cart/cart_item_details.dart';
-import 'package:mentor_academy_e_commerce/screens/widgets/cart/cart_item_image.dart';
-import 'package:mentor_academy_e_commerce/screens/widgets/favorite/favorite_item.dart';
+import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
+import 'package:mentor_academy_e_commerce/core/widgets/default_error_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/favorite/favorite_list_view.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -17,9 +15,28 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final getCartCubit = BlocProvider.of<FavoriteCubit>(context, listen: false);
-    return BlocBuilder<GetCartCubit, GetCartStates>(
+    return BlocBuilder<FavoriteCubit, FavoriteState>(
       builder: (context, state) {
-        return FavoriteListView(products: getCartCubit.products);
+        if (state is FavoriteFailure) {
+          return DefaultErrorWidget(
+            errorMessage: state.errorMessage,
+            onPressedFunction: () async {
+              final String nationalId =
+                  CacheHelper.getData(key: AppKeys.userNationalId) as String;
+              await FavoriteCubit.get(context)
+                  .getProducts(nationalId: nationalId);
+            },
+          );
+        } else if (state is FavoriteSuccess) {
+          return FavoriteListView(products: getCartCubit.products);
+        } else {
+          return Center(
+            child: LoadingAnimationWidget.inkDrop(
+              size: 32.sp,
+              color: AppColors.primaryColor,
+            ),
+          );
+        }
         // return Text(getCartCubit.products.length.toString());
       },
     );

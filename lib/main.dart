@@ -58,7 +58,7 @@ class MyApp extends StatelessWidget {
           lazy: false,
         ),
         BlocProvider(
-          create: (context) => ProductCubit()..getLaptops(),
+          create: (context) => ProductCubit(),
           lazy: false,
         ),
         BlocProvider(
