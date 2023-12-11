@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mentor_academy_e_commerce/models/cart/cart_model/product.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/cart/cart_item_details.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/cart/cart_item_image.dart';
 
 class CartItem extends StatelessWidget {
+  final Product product;
   const CartItem({
     super.key,
+    required this.product,
   });
 
   @override
@@ -22,12 +25,12 @@ class CartItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CartItemImage(),
+          CartItemImage(product: product),
           SizedBox(
             width: 16.w,
           ),
           Expanded(
-            child: CartItemDetails(),
+            child: CartItemDetails(product: product),
           )
         ],
       ),

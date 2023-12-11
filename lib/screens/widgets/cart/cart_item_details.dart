@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/models/cart/cart_model/product.dart';
 
 class CartItemDetails extends StatelessWidget {
+  final Product product;
   const CartItemDetails({
     super.key,
+    required this.product,
   });
 
   @override
@@ -13,7 +16,7 @@ class CartItemDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Dell XPS 13",
+          product.name ?? "",
           style: TextStyle(
             fontSize: 18.sp,
             color: AppColors.primaryColorDark,
@@ -27,16 +30,8 @@ class CartItemDetails extends StatelessWidget {
         ),
         Row(
           children: [
-            // Text(
-            //   "LE ${laptop.price.toString().replaceFirst(".", "")}",
-            // )
             Text(
-              "LE 33333",
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-                color: AppColors.primaryColorDark,
-              ),
+              "LE ${product.price.toString().replaceFirst(".", "")}",
             ),
             SizedBox(
               width: 8.w,
@@ -51,7 +46,7 @@ class CartItemDetails extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                "HPssssssssssssss",
+                product.company ?? "",
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(fontSize: 14.sp),
@@ -86,12 +81,16 @@ class CartItemDetails extends StatelessWidget {
             Row(
               children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    if (product.quantity != 1) {}
+                  },
                   child: Container(
                     width: 25.h,
                     height: 25.h,
                     decoration: BoxDecoration(
-                      color: AppColors.primaryColorDark,
+                      color: product.quantity == 1
+                          ? Colors.grey
+                          : AppColors.primaryColorDark,
                       borderRadius: BorderRadius.circular(2.r),
                     ),
                     child: Center(
@@ -107,7 +106,7 @@ class CartItemDetails extends StatelessWidget {
                   width: 8.w,
                 ),
                 Text(
-                  "1",
+                  product.quantity.toString(),
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.bold,

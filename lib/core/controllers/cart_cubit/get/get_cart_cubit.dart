@@ -22,8 +22,8 @@ class GetCartCubit extends Cubit<GetCartStates> {
         for (var product in response.data["products"]) {
           products.add(Product.fromJson(product));
         }
-        print(products);
-        emit(GetCartSuccess());
+
+        emit(GetCartSuccess(products: products));
       }
     } catch (e) {
       print(e);

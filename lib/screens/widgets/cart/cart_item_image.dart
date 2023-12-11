@@ -1,10 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/models/cart/cart_model/product.dart';
 
 class CartItemImage extends StatelessWidget {
+  final Product product;
   const CartItemImage({
     super.key,
+    required this.product,
   });
 
   @override
@@ -22,8 +26,8 @@ class CartItemImage extends StatelessWidget {
                   width: 110.h,
                   color: AppColors.primaryColorDark,
                 ),
-                Image.asset(
-                  "assets/images/laptop_test.png",
+                CachedNetworkImage(
+                  imageUrl: product.image ?? "",
                   height: 110.h,
                   width: 110.h,
                 ),
@@ -36,14 +40,16 @@ class CartItemImage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.redColor,
                     ),
-                    child: Center(
-                      child: Text(
-                        "15% off",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    child: product.sales != 0
+                        ? Center(
+                            child: Text(
+                              "${product.sales}% off",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : null,
                   ),
                 )
               ],
