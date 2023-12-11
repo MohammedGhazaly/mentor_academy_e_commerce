@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/cart_screen.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 
 class RootScreen extends StatefulWidget {
@@ -32,10 +33,21 @@ class _RootScreenState extends State<RootScreen> {
   Widget build(BuildContext context) {
     List<Widget> screens = [
       HomeScreen(),
-      Container(),
+      CartScreen(),
       Container(),
     ];
     return Scaffold(
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(currentPageIndex == 0
+            ? "Home"
+            : currentPageIndex == 1
+                ? "Cart"
+                : "Favorite"),
+        centerTitle: true,
+      ),
       body: screens[currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
