@@ -5,6 +5,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/core/widgets/default_error_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/product_detail.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/home/product_item.dart';
 
@@ -65,35 +66,11 @@ class HomeScreen extends StatelessWidget {
             );
           }
           if (state is ProductFailure) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    state.errorMessage,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: AppColors.primaryColorDark,
-                    ),
-                    onPressed: () {
-                      ProductCubit.get(context).getLaptops();
-                    },
-                    icon: Icon(
-                      Icons.restart_alt,
-                    ),
-                    label: Text(
-                      "Try again",
-                    ),
-                  )
-                ],
-              ),
+            return DefaultErrorWidget(
+              errorMessage: state.errorMessage,
+              onPressedFunction: () {
+                ProductCubit.get(context).getLaptops();
+              },
             );
           }
           return Center(
