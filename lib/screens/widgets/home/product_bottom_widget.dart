@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/add/add_cart_states.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
@@ -19,7 +22,8 @@ class ProductBottomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var carCubit = BlocProvider.of<AddCartCubit>(context, listen: true);
+    var addCartCubit = BlocProvider.of<AddCartCubit>(context, listen: true);
+    var getCartCubit = BlocProvider.of<GetCartCubit>(context, listen: false);
     return Container(
       color: AppColors.lightColor,
       child: Padding(
@@ -108,16 +112,19 @@ class ProductBottomWidget extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: InkWell(
                       onTap: () async {
+                        String nationId =
+                            CacheHelper.getData(key: AppKeys.userNationalId);
                         AddToCartModel addToCartModel = AddToCartModel(
-                          nationalId:
-                              CacheHelper.getData(key: AppKeys.userNationalId),
+                          nationalId: nationId,
                           productId: laptop.sId!,
                           quantity: "1",
                         );
-                        if (!(carCubit.isAdding &&
-                            laptop.sId! == carCubit.productId)) {
-                          await AddCartCubit.get(context)
-                              .addToCart(addToCartModel, laptop.sId!);
+                        if (!(addCartCubit.isAdding &&
+                            laptop.sId! == addCartCubit.productId)) {
+                          await addCartCubit.addToCart(
+                              addToCartModel, laptop.sId!);
+
+                          await getCartCubit.getProducts(nationalId: nationId);
                         }
                       },
                       child: Container(
@@ -129,8 +136,8 @@ class ProductBottomWidget extends StatelessWidget {
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(16.r))),
                         child: Center(
-                          child: (carCubit.isAdding &&
-                                  laptop.sId! == carCubit.productId)
+                          child: (addCartCubit.isAdding &&
+                                  laptop.sId! == addCartCubit.productId)
                               ? SizedBox(
                                   height: 15,
                                   width: 15,

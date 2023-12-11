@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/cart_cubit/get/get_cart_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
+import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
 
 class RootScreen extends StatefulWidget {
@@ -11,6 +15,19 @@ class RootScreen extends StatefulWidget {
 
 class _RootScreenState extends State<RootScreen> {
   int currentPageIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getItemsInCart();
+  }
+
+  void getItemsInCart() async {
+    await BlocProvider.of<GetCartCubit>(context, listen: false).getProducts(
+        nationalId: CacheHelper.getData(key: AppKeys.userNationalId));
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> screens = [
@@ -38,7 +55,7 @@ class _RootScreenState extends State<RootScreen> {
           ),
           BottomNavigationBarItem(
             icon: Badge(
-              label: Text("0"),
+              label: CartProductTapText(),
               child: Icon(
                 Icons.shopping_cart_rounded,
               ),
@@ -57,5 +74,17 @@ class _RootScreenState extends State<RootScreen> {
         ],
       ),
     );
+  }
+}
+
+class CartProductTapText extends StatelessWidget {
+  const CartProductTapText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    var getCartCubit = BlocProvider.of<GetCartCubit>(context, listen: true);
+    return Text(getCartCubit.products.length.toString());
   }
 }

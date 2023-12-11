@@ -1,13 +1,14 @@
 abstract class AddCartStates {}
 
-class AddCartInitial implements AddCartStates {}
+class AddCartInitil implements AddCartStates {}
 
 class AddCartLoading implements AddCartStates {}
 
 class AddCartFailure implements AddCartStates {
-  final String errorMessage;
+  final String? errorMessage;
 
-  AddCartFailure({required this.errorMessage});
+  AddCartFailure({this.errorMessage});
 }
 
 class AddCartSuccess implements AddCartStates {}
+// Getting Cart products states
