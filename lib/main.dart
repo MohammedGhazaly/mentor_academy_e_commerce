@@ -9,6 +9,7 @@ import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favori
 import 'package:mentor_academy_e_commerce/core/controllers/login_cubit/login_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/onboarding_cubit/onboarding_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/profile_cubit/profile_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/register_cubit/register_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/managers/router.dart';
@@ -75,6 +76,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => FavoriteCubit(),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => ProfileCubit(),
           lazy: false,
         ),
       ],

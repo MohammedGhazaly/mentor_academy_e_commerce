@@ -8,4 +8,5 @@ class ApiConstants {
   static String deleteCart = "$baseUrl/cart/delete";
   static String updateCart = "$baseUrl/cart";
   static String getFavorites = "$baseUrl/favorite";
+  static String profileEndPoint = "$baseUrl/user/profile";
 }

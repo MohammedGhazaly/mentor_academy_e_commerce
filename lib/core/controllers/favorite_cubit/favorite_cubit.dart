@@ -20,6 +20,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
           url: ApiConstants.getFavorites, data: {"nationalId": nationalId});
 
       products = [];
+      favoriteIds = [];
 
       if (response.statusCode == 200) {
         for (var product in response.data["favoriteProducts"]) {
@@ -27,7 +28,6 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
           favoriteIds.add(Product.fromJson(product).id ?? "");
         }
-        print(favoriteIds);
         emit(FavoriteSuccess(products: products));
       }
     } catch (e) {
@@ -83,7 +83,6 @@ class FavoriteCubit extends Cubit<FavoriteState> {
       var response = await DioHelperStore.delData(
           url: ApiConstants.getFavorites,
           data: {"nationalId": nationalId, "productId": productId});
-      favoriteIds.remove(productId);
       await getProducts(nationalId: nationalId);
       emit(state);
     } catch (e) {

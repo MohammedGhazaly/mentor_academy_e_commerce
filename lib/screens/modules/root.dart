@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/cart_cubits/get/get_cart_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/favorite_cubit/favorite_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/product_cubit/product_cubit.dart';
+import 'package:mentor_academy_e_commerce/core/controllers/profile_cubit/profile_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/network/cache_keys.dart';
 import 'package:mentor_academy_e_commerce/core/network/local/cache_helper.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/cart_screen.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/favorite.dart';
 import 'package:mentor_academy_e_commerce/screens/modules/home.dart';
+import 'package:mentor_academy_e_commerce/screens/modules/profile.dart';
 
 class RootScreen extends StatefulWidget {
   static String routeName = "root-screen";
@@ -41,11 +43,16 @@ class _RootScreenState extends State<RootScreen> {
     await BlocProvider.of<ProductCubit>(context, listen: false).getLaptops();
   }
 
+  Future<void> getUserProfile() async {
+    await BlocProvider.of<ProfileCubit>(context, listen: false).getUserData();
+  }
+
   Future<void> getAllData() async {
     await getItemsInFavorite();
     // Future.delayed(const Du/ration(milliseconds: 250));
     await getAllProducts();
     await getItemsInCart();
+    await getUserProfile();
   }
 
   @override
@@ -54,6 +61,7 @@ class _RootScreenState extends State<RootScreen> {
       HomeScreen(),
       CartScreen(),
       FavoriteScreen(),
+      ProfileScreen(),
     ];
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -64,7 +72,9 @@ class _RootScreenState extends State<RootScreen> {
             ? "Home"
             : currentPageIndex == 1
                 ? "Cart"
-                : "Favorite"),
+                : currentPageIndex == 2
+                    ? "Favorite"
+                    : "Profile"),
         centerTitle: true,
       ),
       body: screens[currentPageIndex],
@@ -101,6 +111,12 @@ class _RootScreenState extends State<RootScreen> {
               ),
             ),
             label: "Favorite",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person,
+            ),
+            label: "Profile",
           ),
         ],
       ),

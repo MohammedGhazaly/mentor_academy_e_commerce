@@ -5,7 +5,7 @@ class DioHelperStore {
   static void init() {
     dio = Dio(BaseOptions(
       receiveDataWhenStatusError: true,
-      connectTimeout: Duration(seconds: 20),
+      connectTimeout: Duration(seconds: 30),
     ));
   }
 
