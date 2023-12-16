@@ -17,3 +17,16 @@ class ProfileFailure extends ProfileStates {
 }
 
 class ProfileLoading extends ProfileStates {}
+// Edit profile state
+
+class EditProfileSuccess extends ProfileStates {
+  EditProfileSuccess();
+}
+
+class EditProfileFailure extends ProfileStates {
+  final String errorMessage;
+
+  EditProfileFailure({required this.errorMessage});
+}
+
+class EditProfileLoading extends ProfileStates {}

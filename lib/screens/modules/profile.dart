@@ -6,6 +6,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/profile_cubit/profile_cubit.dart';
 import 'package:mentor_academy_e_commerce/core/controllers/profile_cubit/profile_states.dart';
 import 'package:mentor_academy_e_commerce/core/managers/colors.dart';
+import 'package:mentor_academy_e_commerce/screens/widgets/profile/edit_modal_bottom_widget.dart';
 import 'package:mentor_academy_e_commerce/screens/widgets/profile/profile_details_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -55,7 +56,20 @@ class ProfileScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 12, horizontal: 48),
                   backgroundColor: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          child: EditModalBottomWidget(
+                            user: state.user,
+                          ),
+                        );
+                      });
+                },
                 icon: Icon(Icons.edit_outlined),
                 label: Text("Edit Profile"),
               )

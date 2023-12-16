@@ -9,4 +9,5 @@ class ApiConstants {
   static String updateCart = "$baseUrl/cart";
   static String getFavorites = "$baseUrl/favorite";
   static String profileEndPoint = "$baseUrl/user/profile";
+  static String updateProfileEndPoint = "$baseUrl/user/update";
 }

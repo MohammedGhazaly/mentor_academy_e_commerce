@@ -44,10 +44,12 @@ class DioHelperStore {
       required Map<String, dynamic> data,
       String lang = 'ar',
       String? token}) async {
+    print(url);
+    print(data);
     dio.options.headers = {
       'Content-Type': 'application/json',
       'lang': 'en',
-      'Authorization': token ?? '',
+      // 'Authorization': token ?? '',
     };
     return await dio.put(
       url,
